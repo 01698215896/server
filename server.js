@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const tableUser = require("./module/user");
-const allkhoahoc = require ('./module/khoahoc');
+const allkhoahoc = require("./module/khoahoc");
 const app = express();
+require("dotenv").config();
 
 app.listen(3000, () => {
   console.log("listening on port 3000");
@@ -34,13 +35,11 @@ app.get("/data", async (req, res) => {
   }
 });
 
-
-
 app.get("/data/:id", async (req, res) => {
   try {
     let iduser = req.params.id;
 
-    let data = await tableUser.findOne({ _id : iduser });
+    let data = await tableUser.findOne({ _id: iduser });
     res.status(200).json({ message: "success", dataUser: data });
   } catch (err) {
     res.status(500).json({ message: "get data error" });
@@ -48,13 +47,11 @@ app.get("/data/:id", async (req, res) => {
   }
 });
 
-
-
 app.put("/data/:id", async (req, res) => {
   try {
     let iduser = req.params.id;
     let datauser = req.body;
-    let data = await tableUser.findByIdAndUpdate({ _id : iduser }, datauser);
+    let data = await tableUser.findByIdAndUpdate({ _id: iduser }, datauser);
     res.status(200).json({ message: "success", dataUser: data });
   } catch (err) {
     res.status(500).json({ message: "get data error" });
@@ -66,7 +63,7 @@ app.delete("/data/:id", async (req, res) => {
   try {
     let iduser = req.params.id;
     let datauser = req.body;
-    let data = await tableUser.findByIdAndDelete({ _id : iduser }, datauser);
+    let data = await tableUser.findByIdAndDelete({ _id: iduser }, datauser);
     res.status(200).json({ message: "success", dataUser: data });
   } catch (err) {
     res.status(500).json({ message: "get data error" });
@@ -74,9 +71,6 @@ app.delete("/data/:id", async (req, res) => {
   }
 });
 
-
-mongoose
-  .connect("mongodb+srv://htien2740:admin@cluster0.hffyxv0.mongodb.net/")
-  .then(() => {
-    console.log("connection success mongoose");
-  });
+mongoose.connect(process.env.MB).then(() => {
+  console.log("connection success mongoose");
+});
